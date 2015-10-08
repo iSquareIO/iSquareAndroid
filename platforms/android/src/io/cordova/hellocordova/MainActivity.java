@@ -19,8 +19,14 @@
 
 package io.cordova.hellocordova;
 
+import android.app.Notification;
+import android.app.*;
+import android.content.*;
 import android.os.Bundle;
 import org.apache.cordova.*;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.NotificationCompat.WearableExtender;
 
 public class MainActivity extends CordovaActivity
 {
@@ -30,5 +36,21 @@ public class MainActivity extends CordovaActivity
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+
+
+        Intent viewIntent = new Intent(this, ViewEventActivity.class);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(this, 0, viewIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(getApplication())
+                .setSmallIcon(R.drawable.ic_media_pause)
+                .setContentTitle("Hello Arshdeep")
+                .setContentText("Status change for call center")
+                .setContentIntent(viewPendingIntent)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .build();
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplication());
+        int notificationId = 1;
+        notificationManager.notify(notificationId, notification);
     }
 }
